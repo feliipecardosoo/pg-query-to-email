@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"log"
+	"time"
 
 	"pg-query-to-email/internal/database"
 	"pg-query-to-email/internal/repository"
@@ -33,7 +34,11 @@ func main() {
 	// ──────────────────────────────────────────────────
 	// 4. Executar query
 	// ──────────────────────────────────────────────────
-	users, err := repo.GetUsers(ctx)
+	now := time.Now()
+	start := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location())
+	end := start.Add(24 * time.Hour)
+
+	users, err := repo.GetUsers(ctx, start, end)
 	if err != nil {
 		log.Fatal(err)
 	}

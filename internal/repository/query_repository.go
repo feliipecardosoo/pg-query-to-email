@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"pg-query-to-email/internal/model"
+	"time"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 )
@@ -15,8 +16,8 @@ func NewQueryRepository(db *pgxpool.Pool) *QueryRepository {
 	return &QueryRepository{db: db}
 }
 
-func (r *QueryRepository) GetUsers(ctx context.Context) ([]model.User, error) {
-	rows, err := r.db.Query(ctx, GetUsersQuery)
+func (r *QueryRepository) GetUsers(ctx context.Context, start, end time.Time) ([]model.User, error) {
+	rows, err := r.db.Query(ctx, GetUsersQuery, start, end)
 	if err != nil {
 		return nil, err
 	}
