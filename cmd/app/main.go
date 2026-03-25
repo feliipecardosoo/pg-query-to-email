@@ -1,8 +1,11 @@
 package main
 
 import (
+	"context"
 	"log"
-	database "pg-query-to-email"
+
+	"pg-query-to-email/internal/database"
+	"pg-query-to-email/internal/repository"
 )
 
 func main() {
@@ -14,5 +17,31 @@ func main() {
 		log.Fatal(err)
 	}
 	defer dbPoolWrapper.Close()
-	// pool := dbPoolWrapper.GetPool()
+
+	pool := dbPoolWrapper.GetPool()
+
+	// ──────────────────────────────────────────────────
+	// 2. Repository initialization
+	// ──────────────────────────────────────────────────
+	repo := repository.NewQueryRepository(pool)
+
+	// ──────────────────────────────────────────────────
+	// 3. Context
+	// ──────────────────────────────────────────────────
+	ctx := context.Background()
+
+	// ──────────────────────────────────────────────────
+	// 4. Executar query
+	// ──────────────────────────────────────────────────
+	users, err := repo.GetUsers(ctx)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// ──────────────────────────────────────────────────
+	// 5. Ver resultado
+	// ──────────────────────────────────────────────────
+	for _, u := range users {
+		log.Printf("Nome: %s | Email: %s | Telefone: %s | CreatedAt: %s", u.Nome, u.Email, u.Telefone, u.CreatedAt)
+	}
 }
