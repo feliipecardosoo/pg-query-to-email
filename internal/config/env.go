@@ -18,6 +18,6 @@ func NewEnv() *envStruct {
 func (e *envStruct) LoadEnv() {
 	err := godotenv.Load("../../internal/config/.env")
 	if err != nil {
-		log.Fatal("Erro ao carregar o arquivo .env")
+		log.Println("Aviso: .env não carregado, usando variáveis do sistema")
 	}
 }
