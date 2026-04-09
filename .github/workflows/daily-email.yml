@@ -1,0 +1,31 @@
+name: Daily Email Job
+
+on:
+  schedule:
+    - cron: "0 1 * * *" # 22:00 Brasil 
+  workflow_dispatch: 
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+
+      - name: Instalar dependências
+        run: go mod tidy
+
+      - name: Rodar microserviço
+        run: go run cmd/app/main.go
+        env:
+          API_URL: ${{ secrets.API_URL }}
+          NOTIFIER_API_KEY: ${{ secrets.NOTIFIER_API_KEY }}
+          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+          EMAIL_TO: ${{ secrets.EMAIL_TO }}
