@@ -58,7 +58,7 @@ func (s *NotifierService) Execute(ctx context.Context) error {
 		Body:    "Segue em anexo o relatório em CSV 📎",
 		Attachments: []model.Attachment{
 			{
-				FileName: "users.csv",
+				FileName: utils.CsvFileName,
 				Data:     csvBytes,
 			},
 		},
@@ -74,7 +74,7 @@ func (s *NotifierService) Execute(ctx context.Context) error {
 		return err
 	}
 
-	fmt.Println("Email enviado com sucesso 🚀")
+	fmt.Println("Email enviado com sucesso")
 
 	return nil
 }
