@@ -26,5 +26,5 @@ func main() {
 		log.Fatal("erro ao executar notifier:", err)
 	}
 
-	log.Println("processo finalizado com sucesso 🚀")
+	log.Println("processo finalizado com sucesso")
 }
