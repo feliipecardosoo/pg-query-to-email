@@ -25,8 +25,8 @@ func (c *NotifierClient) SendRequest(ctx context.Context) (*http.Response, error
 
 	req, err := http.NewRequestWithContext(
 		ctx,
-		"POST",
-		c.baseURL+"/api/notifier/send",
+		"GET",
+		c.baseURL+"/api/notifier/users",
 		nil,
 	)
 	if err != nil {
